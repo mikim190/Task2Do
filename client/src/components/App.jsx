@@ -24,20 +24,35 @@ class App extends React.Component {
 		let click = this.state.isClicked;
 		let showTasks;
 
-		if (click === 1) {
-			showTasks = this.state.tasks.filter(task => task.group === 'Purchases');
-		}
-		if (click === 2) {
-			showTasks = this.state.tasks.filter(task => task.group === 'Build Airplane');
-		}
-		console.log('task:', showTasks)
-		return (
-			<div>
-				<h1>Things To Do</h1>
+		if (click === 0) {
+			showTasks = 
+				<div>
+					<h1>Things To Do</h1>
 					<p onClick={(e,value) => this.handleClick(e, 1)}>Task Group 1</p>
 					<p onClick={(e,value) => this.handleClick(e, 2)}>Task Group 2</p>
-			
-					{showTasks ? <ListTask showTask={showTasks} /> : null}
+				</div>
+		};
+
+		if (click === 1) {
+			showTasks = 
+				<div>
+					<h1>Task Group 1</h1>
+					<ListTask showTask={this.state.tasks.filter(task => task.group === 'Purchases')}/>
+				</div>
+		};
+
+		if (click === 2) {
+			showTasks = 
+			<div>
+				<h1>Task Group 2</h1>
+				<ListTask showTask={this.state.tasks.filter(task => task.group === 'Build Airplane')}/>
+			</div>
+		};
+	
+		return (
+			<div>
+		
+				{showTasks}
 				
 			</div>
 		)
