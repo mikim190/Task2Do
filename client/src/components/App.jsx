@@ -1,33 +1,34 @@
 import React, { Component } from 'react';
 import data from '../../../public/data.js';
-import ListTask from './ListTask.jsx';
+import Checkbox from './Checkbox.jsx';
 import styled from 'styled-components';
 
 const Main = styled.div`
 	margin-left: 50px;
 	color: rgb(120, 120, 120);
-	font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif;
+	font-family: 'system-ui';
 `;
 
 const Group = styled.h4`
 	display: inline-block;
 	margin-left: 30px;
 	margin-bottom: 1px;
-	margin-top: 40px;
+	margin-top: 30px;
 	color: rgb(0, 0, 0); 
+	
 `;
 
 const Line = styled.div`
 	border: 1px solid rgb(180, 180, 180);
-	margin-right: 700px;
-	margin-top: 40px;
+	width: 500px;
+	margin-top: 20px;
 `;
 
 const Status = styled.p`
 	margin-left: 40px;
 	margin-top: 1px;
 	color: rgb(180, 180, 180);
-	font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif;
+	font-family: 'system-ui';
 `;
 
 const Icon = styled.i`
@@ -35,15 +36,18 @@ const Icon = styled.i`
 	vertical-align: -9px; 
 `;
 
+
+
 class App extends React.Component {
   constructor() {
 		super();
 		
 		this.state = {
 			tasks: data,
-			isClicked: 0
+			isClicked: 0,
 		}
 		this.handleClick = this.handleClick.bind(this);
+	
 	}
 	
 	handleClick(e,value) {
@@ -52,7 +56,7 @@ class App extends React.Component {
 			isClicked: value
 		})
 	}
-	
+
 	render() {
 		let click = this.state.isClicked;
 		let showTasks;
@@ -74,25 +78,24 @@ class App extends React.Component {
 
 		if (click === 1) {
 			showTasks = 
-				<div>
+				<Main>
 					<h1>Task Group 1</h1>
-					<ListTask showTask={this.state.tasks.filter(task => task.group === 'Purchases')}/>	
-				</div>
+					<Checkbox showTask={this.state.tasks.filter(task => task.group === 'Purchases')}/>	
+				</Main>
 		};
 
 		if (click === 2) {
 			showTasks = 
-			<div>
+			<Main>
 				<h1>Task Group 2</h1>
-				<ListTask showTask={this.state.tasks.filter(task => task.group === 'Build Airplane')}/>				
-			</div>
+				<Checkbox showTask={this.state.tasks.filter(task => task.group === 'Build Airplane')}/>				
+			</Main>
 		};
 	
 		return (
 			<div>
-		
 				{showTasks}
-				
+			
 			</div>
 		)
 	}
