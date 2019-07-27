@@ -44,52 +44,62 @@ class App extends React.Component {
 		
 		this.state = {
 			tasks: data,
-			isClicked: 0,
+			isClicked: false,
+			whichTask: 0,
+			totalComplete: 0
 		}
 		this.handleClick = this.handleClick.bind(this);
 	
 	}
 	
-	handleClick(e,value) {
+	handleClick(e,key) {
 		e.preventDefault();
 		this.setState({
-			isClicked: value
+			isClicked: !this.state.isClicked,
+			whichTask: key
 		})
 	}
 
+
 	render() {
 		let click = this.state.isClicked;
-		let showTasks;
 
-		if (click === 0) {
+		let convertDataToObj = this.state.tasks.reduce((obj, each) => {
+			if (!obj[each.group]) {
+				obj[each.group] = [each]
+			} else {
+				obj[each.group].push(each)
+			}
+			return obj;
+		},{});
+
+		let taskNames = Object.keys(convertDataToObj);
+		
+		let tasks = taskNames.map((each,ind) => 
+			<div key={ind}>
+				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
+				<Status>1 OF 3 TASKS COMPLETE</Status>	
+				<Line></Line>
+			</div>
+		);
+
+		let showTasks;
+		
+		if (!click) {
 			showTasks = 
 				<Main>
 					<h1>Things To Do</h1>
-					<Line></Line>
-						<Icon className="fas fa-caret-right"></Icon> <Group onClick={(e,value) => this.handleClick(e, 1)}>Task Group 1</Group>
-						<Status>1 OF 3 TASKS COMPLETE</Status>
-					<Line></Line>
-						<Icon className="fas fa-caret-right"></Icon> <Group onClick={(e,value) => this.handleClick(e, 2)}>Task Group 2</Group>
-						<Status>0 OF 2 TASKS COMPLETE</Status>
-					<Line></Line>
-
+					<Line></Line> 
+						{tasks}
 				</Main>
 		};
-
-		if (click === 1) {
+		
+		if (click) {
 			showTasks = 
 				<Main>
-					<h1>Task Group 1</h1>
-					<Checkbox showTask={this.state.tasks.filter(task => task.group === 'Purchases')}/>	
+					<h1>{taskNames[this.state.whichTask]}</h1>
+					<Checkbox showTask={this.state.tasks.filter(task => task.group === taskNames[this.state.whichTask])}/>	
 				</Main>
-		};
-
-		if (click === 2) {
-			showTasks = 
-			<Main>
-				<h1>Task Group 2</h1>
-				<Checkbox showTask={this.state.tasks.filter(task => task.group === 'Build Airplane')}/>				
-			</Main>
 		};
 	
 		return (

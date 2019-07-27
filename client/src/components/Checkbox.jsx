@@ -51,6 +51,7 @@ class Checkbox extends React.Component {
 	}
 
 	render() {
+		
 		var style = {
 			textDecoration: this.state.checked ? 'line-through' : 'none',
 		};
