@@ -44,35 +44,38 @@ class Checkbox extends React.Component {
 		
 	}
 
-	handleCheckboxChange(event){
+	handleCheckboxChange(){
+		
 		this.setState({ 
-			checked: event.target.checked 
+			checked: !this.state.checked 
 		})
 	}
 
 	render() {
-		
-		var style = {
+		const tasks = this.props.showTask;
+	
+		let style = {
 			textDecoration: this.state.checked ? 'line-through' : 'none',
 		};
+		
+		let task = tasks.map((each,ind) => 
+			<div key={ind}>
+				<Container>
+					<input type="checkbox" onChange={this.handleCheckboxChange}></input> 
+					<Group style={style}>{each.task}</Group>
+				</Container>
+				<Line></Line>
+			</div>
+		);
 		
 		return (
 			<Main>
 				<Line></Line>
-				<Container>
+				{/* <Container>
 					<Icon className="fas fa-lock"></Icon><Group1 style={style}>Locked Task</Group1>
-				</Container>
-				<Line></Line>
-				<Container>
-					<input type="checkbox" onChange={this.handleCheckboxChange}></input> 
-					<Group style={style}>Incomplete Task</Group>
-				</Container>
-				<Line></Line>
-				<Container>
-					<input type="checkbox" onChange={this.handleCheckboxChange}></input> 
-					<Group style={style}>Completed Task</Group>
-				</Container>
-				<Line></Line>
+				</Container> */}
+				{task}
+					
 			</Main>
 		)
 	}

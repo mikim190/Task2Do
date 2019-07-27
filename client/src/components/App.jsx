@@ -80,7 +80,7 @@ class App extends React.Component {
 		let tasks = taskNames.map((each,ind) => 
 		<div key={ind}>
 				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
-				<Status>1 OF {(this.state.tasks.filter(task => task.group === taskNames[ind])).length} TASKS COMPLETE</Status>	
+				<Status>0 OF {(this.state.tasks.filter(task => task.group === taskNames[ind])).length} TASKS COMPLETE</Status>	
 				<Line></Line>
 			</div>
 		);
