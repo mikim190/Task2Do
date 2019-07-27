@@ -74,16 +74,17 @@ class App extends React.Component {
 		},{});
 
 		let taskNames = Object.keys(convertDataToObj);
+
+		let showTasks;
 		
 		let tasks = taskNames.map((each,ind) => 
-			<div key={ind}>
+		<div key={ind}>
 				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
-				<Status>1 OF 3 TASKS COMPLETE</Status>	
+				<Status>1 OF {(this.state.tasks.filter(task => task.group === taskNames[ind])).length} TASKS COMPLETE</Status>	
 				<Line></Line>
 			</div>
 		);
 
-		let showTasks;
 		
 		if (!click) {
 			showTasks = 
