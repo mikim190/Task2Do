@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import data from '../../../public/data.js';
-import Checkbox from './Checkbox.jsx';
+import TaskList from './TaskList.jsx';
 import styled from 'styled-components';
 
 const Main = styled.div`
@@ -35,7 +35,6 @@ const Icon = styled.i`
 	display: inline-flex;
 	vertical-align: -9px; 
 `;
-
 
 
 class App extends React.Component {
@@ -99,7 +98,7 @@ class App extends React.Component {
 			showTasks = 
 				<Main>
 					<h1>{taskNames[this.state.whichTask]}</h1>
-					<Checkbox showTask={this.state.tasks.filter(task => task.group === taskNames[this.state.whichTask])}/>	
+					<TaskList showTask={this.state.tasks.filter(task => task.group === taskNames[this.state.whichTask])}/>	
 				</Main>
 		};
 	
