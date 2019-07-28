@@ -67,22 +67,25 @@ class App extends React.Component {
 			if (!obj[each.group]) {
 				obj[each.group] = [each]
 			} else {
-				obj[each.group].push(each)
+				obj[each.group].unshift(each)
 			}
 			return obj;
 		},{});
 
-		let taskNames = Object.keys(convertDataToObj);
+	
+		let listOfTaskNames = Object.keys(convertDataToObj);
+		let taskLength = listOfTaskNames[this.state.whichTask];
 
 		let showTasks;
 		
-		let tasks = taskNames.map((each,ind) => 
+		let tasks = listOfTaskNames.map((each,ind) => 
 		<div key={ind}>
 				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
-				<Status>0 OF {(this.state.tasks.filter(task => task.group === taskNames[ind])).length} TASKS COMPLETE</Status>	
+				<Status>0 OF {convertDataToObj[listOfTaskNames[ind]].length} TASKS COMPLETE</Status>	
 				<Line></Line>
 			</div>
 		);
+
 
 		
 		if (!click) {
@@ -97,8 +100,8 @@ class App extends React.Component {
 		if (click) {
 			showTasks = 
 				<Main>
-					<h1>{taskNames[this.state.whichTask]}</h1>
-					<TaskList showTask={this.state.tasks.filter(task => task.group === taskNames[this.state.whichTask])}/>	
+					<h1>{taskLength}</h1>
+					<TaskList showTask={convertDataToObj[taskLength]}/>	
 				</Main>
 		};
 	

@@ -22,12 +22,12 @@ class TaskList extends React.Component {
 
 	render() {
 		const data = this.props.showTask;
-	
+		console.log('tasklist:', data)
 		return (
 			<Main>
 				<Line></Line>
 				{data.map((value, id) => 
-					<Task key={id} data={value}/>
+					<Task key={id} data={value}/> 
 				)}
 			</Main>
 		)
@@ -35,7 +35,3 @@ class TaskList extends React.Component {
 }
 
 export default TaskList;
-
-	{/* <Container>
-					<Icon className="fas fa-lock"></Icon><Group1 style={style}>Locked Task</Group1>
-				</Container> */}
