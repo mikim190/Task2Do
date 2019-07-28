@@ -90,18 +90,11 @@ class Task extends React.Component {
 		})
   }
   
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.indeterminate !== this.props.indeterminate) {
-  //     this.selector.indeterminate = this.props.indeterminate;
-  //   }
-  // }
-
-
   render() {
   
     let text = this.state.checked ? <strike>{this.props.data.task}</strike> : this.props.data.task;
     
-    let dependency = !this.props.data.dependencyIds.length ? 
+    let eachTask = !this.props.data.dependencyIds.length ? 
         <Container>
           <Box type="checkbox" onChange={this.handleCheckboxChange}/>
           <Label style={{color: 'rgb(0, 0, 0)'}}>{text}</Label>
@@ -113,7 +106,7 @@ class Task extends React.Component {
     
     return (
       <div >
-		 	  {dependency}
+		 	  {eachTask}
 		 		<Line></Line>
 		 	</div>
     )

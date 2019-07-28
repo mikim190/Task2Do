@@ -22,12 +22,12 @@ class TaskList extends React.Component {
 
 	render() {
 		const data = this.props.showTask;
-		console.log('tasklist:', data)
+		
 		return (
 			<Main>
 				<Line></Line>
-				{data.map((value, id) => 
-					<Task key={id} data={value}/> 
+				{data.map((value, id, allTasks) => 
+					<Task key={id} data={value} allData={allTasks}/> 
 				)}
 			</Main>
 		)
