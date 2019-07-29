@@ -49,14 +49,14 @@ class App extends React.Component {
 		}
 		this.handleClick = this.handleClick.bind(this);
 		this.getRecords = this.getRecords.bind(this);
-	
+		this.updateRecord = this.updateRecord.bind(this);
 	}
 
 	componentDidMount() {
 		this.getRecords();
 	}
 
-	getRecords(){
+	getRecords() {
 		axios.get('/data')
 			.then(data => {
 				this.setState({
@@ -65,6 +65,18 @@ class App extends React.Component {
 			})
 			.catch(err => {
 				console.log(err)
+			})
+	}
+
+	updateRecord(newData) {
+		
+		axios.put('/data', newData)
+			.then(data => {
+				console.log('Update data successfully!', data)
+				this.getRecords();
+			})
+			.catch(err => {
+				console.log('Update failed!', err)
 			})
 	}
 	
@@ -96,7 +108,7 @@ class App extends React.Component {
 
 	
 		let listOfTaskNames = Object.keys(convertDataToObj);
-		let taskLength = listOfTaskNames[this.state.whichTask];
+		let eachTaskName = listOfTaskNames[this.state.whichTask];
 
 		let showTasks;
 		
@@ -122,8 +134,8 @@ class App extends React.Component {
 		if (click) {
 			showTasks = 
 				<Main>
-					<h1>{taskLength}</h1>
-					<TaskList showTask={convertDataToObj[taskLength]}/>	
+					<h1>{eachTaskName}</h1>
+					<TaskList updateRecord={this.updateRecord} showTask={convertDataToObj[eachTaskName]}/>	
 				</Main>
 		};
 	

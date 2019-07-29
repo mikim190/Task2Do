@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const PORT = 3000;
-const {getAllTasks} = require('../data/data.js');
+const {getAllTasks, updateTask} = require('../data/data.js');
 
 const app = express();
 app.use(express.static(path.join(__dirname, '../client/dist/')));
@@ -23,7 +23,18 @@ app.get('/data', (req,res) => {
     .catch(err => {
       res.send(err)
     })
-})
+});
+
+app.put('/data', (req,res) => {
+  
+  updateTask(req.body.id, req.body.completedAt)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+});
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`)

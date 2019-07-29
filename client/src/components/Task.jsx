@@ -79,31 +79,40 @@ class Task extends React.Component {
 
     this.state = {
       checked: false,
-		}
+    }
 		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-		
+	
 	}
 
-	handleCheckboxChange(){
-			this.setState({ 
-			checked: !this.state.checked,
-		})
-  }
-  
-  render() {
- 
-    let text = this.state.checked ? <strike>{this.props.data.task}</strike> : this.props.data.task;
+	handleCheckboxChange (e) {
     
+		this.setState({ 
+      checked: !this.state.checked,
+    })
+    this.props.updateRecord({
+      completedAt: new Date().toLocaleString(),
+      id: this.props.data.id
+    })
+  }
+
+
+  
+
+  render() {
+  
+    let text = this.state.checked ? <strike>{this.props.data.task}</strike> : this.props.data.task;
+   
     let eachTask = this.props.data.dependencyIds ? 
-      <Container>
+      <Container >
         <Icon className="fas fa-lock"></Icon>  
         <Label style={{color: 'rgb(180, 180, 180)'}}>{text}</Label>
       </Container> : 
-      <Container>
-        <Box type="checkbox" onChange={this.handleCheckboxChange}/>
+      <Container >
+        <Box type="checkbox" onChange={(e) => this.handleCheckboxChange(e)}/>
         <Label style={{color: 'rgb(0, 0, 0)'}}>{text}</Label>
       </Container> 
-       
+    
+    
     
     return (
       <div >

@@ -20,6 +20,8 @@ class TaskList extends React.Component {
 
 	}
 
+	
+
 	render() {
 		const data = this.props.showTask;
 		
@@ -27,7 +29,7 @@ class TaskList extends React.Component {
 			<Main>
 				<Line></Line>
 				{data.map((value, id, allTasks) => 
-					<Task key={id} data={value} allData={allTasks}/> 
+					<Task key={id} data={value} allData={allTasks} updateRecord={this.props.updateRecord}/> 
 				)}
 			</Main>
 		)

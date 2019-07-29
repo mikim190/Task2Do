@@ -17,8 +17,19 @@ const getAllTasks = () => new Promise ((resolve,reject) => {
     }
   })
 });
+
+const updateTask = (id, newData) => new Promise ((resolve,reject) => {
+  pool.query('UPDATE tasks SET "completedAt" = $1 WHERE id=$2', [newData, id], (error, results) => {
+    if (error) {
+			reject(error)
+    } else {
+    	resolve(results)
+    }
+  })
+});
  
 
 module.exports = {
-	getAllTasks,
+  getAllTasks,
+  updateTask
 }
