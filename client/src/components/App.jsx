@@ -93,7 +93,7 @@ class App extends React.Component {
 		
 		let click = this.state.isClicked;
 
-		let convertDataToObj = this.state.tasks.reduce((obj, each) => {
+		let groupDataByName = this.state.tasks.reduce((obj, each) => {
 			if (!obj[each.group]) {
 				obj[each.group] = [each]
 			} else {
@@ -106,8 +106,7 @@ class App extends React.Component {
 			return obj;
 		},{});
 
-	
-		let listOfTaskNames = Object.keys(convertDataToObj);
+		let listOfTaskNames = Object.keys(groupDataByName);
 		let eachTaskName = listOfTaskNames[this.state.whichTask];
 
 		let showTasks;
@@ -115,7 +114,7 @@ class App extends React.Component {
 		let tasks = listOfTaskNames.map((each,ind) => 
 		<div key={ind}>
 				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
-				<Status>0 OF {convertDataToObj[listOfTaskNames[ind]].length} TASKS COMPLETE</Status>	
+				<Status>{(groupDataByName[listOfTaskNames[ind]].filter(each => each.completedAt)).length} OF {groupDataByName[listOfTaskNames[ind]].length} TASKS COMPLETE</Status>	
 				<Line></Line>
 			</div>
 		);
@@ -135,7 +134,7 @@ class App extends React.Component {
 			showTasks = 
 				<Main>
 					<h1>{eachTaskName}</h1>
-					<TaskList updateRecord={this.updateRecord} showTask={convertDataToObj[eachTaskName]}/>	
+					<TaskList updateRecord={this.updateRecord} showTask={groupDataByName[eachTaskName]}/>	
 				</Main>
 		};
 	
