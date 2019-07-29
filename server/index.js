@@ -15,8 +15,17 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
 });
 
-
+app.get('/data', (req,res) => {
+  getAllTasks()
+    .then(data => {
+      res.send(data)
+    })
+    .catch(err => {
+      res.send(err)
+    })
+})
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`)
 });
+

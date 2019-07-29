@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import data from '../../../public/data.js';
 import TaskList from './TaskList.jsx';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Main = styled.div`
 	margin-left: 50px;
@@ -42,13 +42,30 @@ class App extends React.Component {
 		super();
 		
 		this.state = {
-			tasks: data,
+			tasks: [],
 			isClicked: false,
 			whichTask: 0,
 			totalComplete: 0
 		}
 		this.handleClick = this.handleClick.bind(this);
+		this.getRecords = this.getRecords.bind(this);
 	
+	}
+
+	componentDidMount() {
+		this.getRecords();
+	}
+
+	getRecords(){
+		axios.get('/data')
+			.then(data => {
+				this.setState({
+					tasks: data.data
+				})
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	}
 	
 	handleClick(e,key) {
@@ -61,13 +78,18 @@ class App extends React.Component {
 
 
 	render() {
+		
 		let click = this.state.isClicked;
 
 		let convertDataToObj = this.state.tasks.reduce((obj, each) => {
 			if (!obj[each.group]) {
 				obj[each.group] = [each]
 			} else {
-				obj[each.group].unshift(each)
+				if (each.dependencyIds) {
+					obj[each.group].unshift(each)
+				} else {
+					obj[each.group].push(each)
+				}
 			}
 			return obj;
 		},{});
