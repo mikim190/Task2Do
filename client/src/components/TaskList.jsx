@@ -29,7 +29,7 @@ class TaskList extends React.Component {
 			<Main>
 				<Line></Line>
 				{data.map((value, id, allTasks) => 
-					<Task key={id} data={value} allData={allTasks} updateRecord={this.props.updateRecord}/> 
+					<Task key={value.id} data={value} allData={allTasks} finTaskIds={this.props.finTaskIds} updateRecord={this.props.updateRecord}/> 
 				)}
 			</Main>
 		)

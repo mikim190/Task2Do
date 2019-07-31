@@ -119,7 +119,7 @@ class Task extends React.Component {
 		this.setState({ 
       checked: !this.state.checked,
     })
-    
+
     this.props.updateRecord({
       completedAt: new Date().toLocaleString(),
       id: this.props.data.id
@@ -129,28 +129,26 @@ class Task extends React.Component {
   render() {
     
     let taskData = this.props.data;
-    let allTaskData = this.props.allData;
-  
-    // let text = this.state.checked ? <strike>{this.props.data.task}</strike> : this.props.data.task;
-   
-    //display different icon and style for each status
-    let eachTask = (!taskData.dependencyIds && taskData.completedAt !== null) ? 
-      <Container >
-        <FinBox id={this.props.data.id} type="checkbox"/>
+    let completedTaskIds = this.props.finTaskIds;
+    let unLockTask = taskData.dependencyIds.every(id => completedTaskIds.includes(id));
+    
+    let text = this.state.checked ? <strike>{this.props.data.task}</strike> : this.props.data.task;
+
+    let eachTask = (unLockTask && taskData.completedAt !== null) ? 
+      <Container>
+        <FinBox id={taskData.id} type="checkbox"/>
         <Label style={{color: 'rgb(0, 0, 0)'}}><strike>{taskData.task}</strike></Label>
       </Container > : 
-      taskData.dependencyIds ?
-      <Container >
+      (!unLockTask) ?
+      <Container>
         <Icon className="fas fa-lock"></Icon>  
         <Label style={{color: 'rgb(180, 180, 180)'}}>{taskData.task}</Label>
       </Container> : 
       <Container >
-        <Box type="checkbox" id={this.props.data.id} onChange={(e) => this.handleCheckboxChange(e)}/>
-        <Label style={{color: 'rgb(0, 0, 0)'}}>{taskData.task}</Label>
+        <Box type="checkbox" id={taskData.id} onChange={(e) => this.handleCheckboxChange(e)}/>
+        <Label style={{color: 'rgb(0, 0, 0)'}}>{text}</Label>
       </Container> 
-    
-    //unlock task when complete dependency
-    // let unlockTask = allTaskData.map(task => )
+
     
     return (
       <div >

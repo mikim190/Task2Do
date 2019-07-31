@@ -63,7 +63,7 @@ class App extends React.Component {
 			tasks: [],
 			isClicked: false,
 			whichTask: 0,
-			completeTasks: [],
+			completeTaskIds: [],
 		}
 		this.handleClick = this.handleClick.bind(this);
 		this.getRecords = this.getRecords.bind(this);
@@ -76,11 +76,12 @@ class App extends React.Component {
 
 	getRecords() {
 		axios.get('/data')
-			.then(data => {
-				
+			.then(records => {
+				let data = records.data;
+				let finTaskIds = data.filter(each => each.completedAt !== null).map(each => each.id)
 				this.setState({
-					tasks: data.data,
-				
+					tasks: data,
+					completeTaskIds: finTaskIds
 				})
 			})
 			.catch(err => {
@@ -117,15 +118,15 @@ class App extends React.Component {
 			if (!obj[each.group]) {
 				obj[each.group] = [each]
 			} else {
-				if (each.dependencyIds) {
-					obj[each.group].unshift(each)
-				} else {
+				if (each.completedAt !== null || !each.dependencyIds.length) {
 					obj[each.group].push(each)
+				} else {
+					obj[each.group].unshift(each)
 				}
 			}
 			return obj;
 		},{});
-
+		
 		let listOfTaskNames = Object.keys(groupDataByName);
 		let eachTaskName = listOfTaskNames[this.state.whichTask];
 
@@ -155,10 +156,8 @@ class App extends React.Component {
 		
 				<Main>
 					<Title>{eachTaskName}</Title> <Home onClick={(e) => this.handleClick(e)}>ALL GROUPS</Home>
-					<TaskList updateRecord={this.updateRecord} showTask={groupDataByName[eachTaskName]}/>	
+					<TaskList updateRecord={this.updateRecord} showTask={groupDataByName[eachTaskName]} finTaskIds={this.state.completeTaskIds}/>	
 				</Main>
-
-
 		};
 	
 		return (
