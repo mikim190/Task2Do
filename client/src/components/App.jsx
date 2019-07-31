@@ -18,6 +18,24 @@ const Group = styled.h4`
 	
 `;
 
+const Home = styled.span`
+	display: inline-flex;
+	margin-left: 200px;
+	color: rgb(0, 102, 255); 
+	font-family: 'system-ui';
+	
+`;
+
+const Title = styled.span`
+	display: inline-block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+`;
+
 const Line = styled.div`
 	border: 1px solid rgb(180, 180, 180);
 	width: 500px;
@@ -126,7 +144,7 @@ class App extends React.Component {
 		if (!click) {
 			showTasks = 
 				<Main>
-					<h1>Things To Do</h1>
+					<Title>Things To Do</Title>
 					<Line></Line> 
 						{tasks}
 				</Main>
@@ -134,10 +152,13 @@ class App extends React.Component {
 		
 		if (click) {
 			showTasks = 
+		
 				<Main>
-					<h1>{eachTaskName}</h1>
+					<Title>{eachTaskName}</Title> <Home onClick={(e) => this.handleClick(e)}>ALL GROUPS</Home>
 					<TaskList updateRecord={this.updateRecord} showTask={groupDataByName[eachTaskName]}/>	
 				</Main>
+
+
 		};
 	
 		return (
