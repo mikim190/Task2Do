@@ -62,7 +62,7 @@ class App extends React.Component {
 		this.state = {
 			tasks: [],
 			isClicked: false,
-			whichTask: 0,
+			whichTask: '',
 			completeTaskIds: [],
 		}
 		this.handleClick = this.handleClick.bind(this);
@@ -78,7 +78,7 @@ class App extends React.Component {
 		axios.get('/data')
 			.then(records => {
 				let data = records.data;
-				let finTaskIds = data.filter(each => each.completedAt !== null).map(each => each.id)
+				let finTaskIds = data.filter(each => each.completedAt !== null).map(each => each.id);
 				this.setState({
 					tasks: data,
 					completeTaskIds: finTaskIds
@@ -101,11 +101,11 @@ class App extends React.Component {
 			})
 	}
 	
-	handleClick(e,key) {
+	handleClick(e,groupName) {
 		e.preventDefault();
 		this.setState({
 			isClicked: !this.state.isClicked,
-			whichTask: key
+			whichTask: groupName
 		})
 	}
 
@@ -128,13 +128,13 @@ class App extends React.Component {
 		},{});
 		
 		let listOfTaskNames = Object.keys(groupDataByName);
-		let eachTaskName = listOfTaskNames[this.state.whichTask];
+		let taskByGroupName = groupDataByName[this.state.whichTask];
 
 		let showTasks;
 		
 		let tasks = listOfTaskNames.map((each,ind) => 
 		<div key={ind}>
-				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,ind)}>{each}</Group>	
+				<Icon className="fas fa-caret-right"></Icon><Group onClick={(e) => this.handleClick(e,each)}>{each}</Group>	
 				<Status>{(groupDataByName[listOfTaskNames[ind]].filter(each => each.completedAt)).length} OF {groupDataByName[listOfTaskNames[ind]].length} TASKS COMPLETE</Status>	
 				<Line></Line>
 			</div>
@@ -155,8 +155,8 @@ class App extends React.Component {
 			showTasks = 
 		
 				<Main>
-					<Title>{eachTaskName}</Title> <Home onClick={(e) => this.handleClick(e)}>ALL GROUPS</Home>
-					<TaskList updateRecord={this.updateRecord} showTask={groupDataByName[eachTaskName]} finTaskIds={this.state.completeTaskIds}/>	
+					<Title>{this.state.whichTask}</Title> <Home onClick={(e) => this.handleClick(e)}>ALL GROUPS</Home>
+					<TaskList updateRecord={this.updateRecord} showTask={taskByGroupName} finTaskIds={this.state.completeTaskIds}/>	
 				</Main>
 		};
 	

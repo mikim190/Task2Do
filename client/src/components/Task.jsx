@@ -122,7 +122,7 @@ class Task extends React.Component {
 
     this.props.updateRecord({
       completedAt: new Date().toLocaleString(),
-      id: this.props.data.id
+      id: e.target.id
     })
   }
 
@@ -141,7 +141,7 @@ class Task extends React.Component {
       </Container > : 
       (!unLockTask) ?
       <Container>
-        <Icon className="fas fa-lock"></Icon>  
+        <Icon id={taskData.id} className="fas fa-lock"></Icon>  
         <Label style={{color: 'rgb(180, 180, 180)'}}>{taskData.task}</Label>
       </Container> : 
       <Container >
