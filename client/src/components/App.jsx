@@ -45,7 +45,7 @@ class App extends React.Component {
 			tasks: [],
 			isClicked: false,
 			whichTask: 0,
-			totalComplete: 0
+			completeTasks: [],
 		}
 		this.handleClick = this.handleClick.bind(this);
 		this.getRecords = this.getRecords.bind(this);
@@ -59,8 +59,10 @@ class App extends React.Component {
 	getRecords() {
 		axios.get('/data')
 			.then(data => {
+				
 				this.setState({
-					tasks: data.data
+					tasks: data.data,
+				
 				})
 			})
 			.catch(err => {
